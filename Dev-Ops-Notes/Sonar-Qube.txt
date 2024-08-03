@@ -1,0 +1,170 @@
+
+===========
+Sonar Qube
+===========
+
+=> Code Quality Checking Tool
+
+=> Using SonarQube we can perform code review to identify developers mistakes in the code
+
+=> SonarQube s/w developed by using Java Language
+
+=> SonarQube supports 30+ Programming Languages to perform Code Review
+
+=> Using SonarQube we can generate Code Review Report 
+
+=> DevOps team is responsible to generate Project Code Review Report and share it with Development team.
+
+Note: Development is responsible to fix sonar issues.
+
+Note: Code Review is part of project build process.
+
+==============
+Sonar Issues
+==============
+
+=> SonarQube server will identify below types of issues in the project
+
+	=> Bugs (danger, It will harm our code execution)
+
+	=> Vulnerabilities (security hotspots)
+
+	=> Code Smells (not danger but week design in program)
+
+	=> Duplicate Code Blocks (Repeated code)
+
+	=> Code Coverage (how many lines of code is tested in unit testing)
+
+
+========================
+Sonar Quality Profiles
+========================
+
+Quality Profile : Set of rules to perform code review
+
+=> In SonarQube, for every language one Quaylity Profile is available with set of rules to perform code review.
+
+=> When we perform code review using sonar then it will identify our project developed using which language based on that it will execute that language specific quality profile to perform code review.
+
+
+	Java Project --------> Java Quality Profile ---> Java Rules
+
+	Python Project -------> Python Quality Profile ---> Python Rules
+
+	PHP Project ----------> PHP Quality Profile ---> PHP Rules
+
+
+====================
+Sonar Quality Gate
+====================
+
+=> Quality Gate Represents overall project code quality is Passed or Failed.
+
+Note: If Code Quality Gate is Failed, we should not deploy that code.
+
+
+
+=======================
+SonarQube Server Setup
+=======================
+
+Sonar Setup Doc : https://github.com/ashokitschool/DevOps-Documents/blob/main/06-Sonar-Setup-Docker.md
+
+
+=> Below are the default credentials to login into server
+
+	username: admin
+	password: admin
+
+
+===========================================
+Integrate Sonar server with Java Maven App
+===========================================
+
+Step-1 : Generate sonar token for integration
+
+Go to Sonar Server Dashboard -> Click on profile -> My Account -> Security -> Generate Token 
+
+Step-2 :  Clone git repository : https://github.com/ashokitschool/SB-REST-H2-DB-APP
+
+Step-3 :  Configure Sonar Server details under <properties/> tag in "pom.xml" file below
+
+	 <properties>
+	   <sonar.host.url>http://15.206.81.179:9000/</sonar.host.url>
+	   <sonar.login>sqa_b22f982e4e1e1be7c7f405d6a0fbf1fdb212bc4c</sonar.login>
+     </properties>	   
+
+Step-4 : Then build the project using "mvn sonar:sonar" goal
+
+
+=================
+Quality Profile
+=================
+
+-> For each programming language sonar qube provided one quality profile with set of rules
+
+-> Quality Profile means set of rules to perform code review
+
+-> We can create our own quality profile based on project requirement
+
+-> Create One Quality Profile
+
+			- Name : SBI_Project_QP
+			- Language: Java
+			- Parent : None
+
+Note: We can make our quality profile as default one then it will be applicable for all the projects which gets reviewed under this sonar server.
+
+Note: If we have any common ruleset for all projects then we can create one quality profile and we can use that as parent quality profile for other projects.
+
+-> We can configure custom quality profile to a specific project using below steps
+
+			- Click on project name
+			- Go to administration
+			- Click on quality profile
+			- Select profile required
+
+==============
+Quality Gate
+==============
+
+-> Quality Gate represents set of metrics to identify project quality is Passed or Failed
+
+-> Every Project Quality Gate should be passed
+
+-> In Sonar We have default Quality Gate
+
+-> If required, we can create our own Quality Gate also
+
+
+===========
+Conclusion
+===========
+
+-> If project quality gate is failed then we should not accept that code for deployment.
+
+-> If project is having Sonar issues then development team is responsible to fix those issues
+
+-> As a DevOps engineer, we will perform Code Review and we will send Code Review report to Development team (we will send sonar server URL to development team)
+
+
+
+=========
+Summary
+=========
+
+1) What is SonarQube
+
+2) What is Code Review
+
+3) Sonar Server setup in Linux Machine
+
+4) Sonar Server Integration in Maven Project
+
+5) Sonar Token Generation
+
+6) Sonar Server Issue Types
+
+7) Quality Profiles
+
+8) Quality Gates

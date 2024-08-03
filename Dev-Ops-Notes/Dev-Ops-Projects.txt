@@ -1,0 +1,69 @@
+
+
+===================
+DevOps Project - 01
+===================
+
+=> Create DevOps CI CD pipeline using below tools to automate project build & deployment process.
+
+
+## Implementation Steps: https://github.com/ashokitschool/DevOps-Documents/blob/main/09-DEVOPS-PROJECT-SETUP.md
+
+1) Git 
+2) Maven
+3) Sonar
+4) Nexus
+5) Tomact
+6) Jenkins
+
+## Source Code Git Repo URL : https://github.com/ashokitschool/maven-web-app.git
+
+Reference Video : https://youtu.be/qJ8gUp0O25k?si=g3HaC1gkR09JIkTR 
+
+=====================
+DevOps Project - 02 
+=====================
+
+=> Create DevOps CI CD pipeline using below tools to automate project build & deployment process.
+
+1) Git 
+2) Maven
+3) Docker
+4) Kubernetes
+5) Jenkins
+
+## Source Code Git Repo : https://github.com/ashokitschool/contact_backend_app.git
+
+## Implementation Steps : https://github.com/ashokitschool/DevOps-Documents/blob/main/10-Jenkins-Docker-K8S.md 
+
+======================
+DevOps Project - 03 
+======================
+
+Deploy fullstack application using DevOps tools
+
+Backend app : Springboot
+
+## Backend App Git Repo : https://github.com/ashokitschool/contact_backend_app.git
+
+Frontend app : Angular
+
+## Frontend app Git Repo : https://github.com/ashokitschool/contact_ui_ng_app.git
+
+====================
+Steps to implement
+====================
+
+Step-1) Create CI CD Job for backend app
+
+Step-2) Execute backend CI CD job
+
+Step-3) Configure backend app url in frontend app  
+
+		(Location : src/app/contact.service.ts)
+
+Step-4) Create CI CD Job for frontend app
+
+Step-5) Execute frontend CI CD job
+
+Step-6) Access frontend app and test it

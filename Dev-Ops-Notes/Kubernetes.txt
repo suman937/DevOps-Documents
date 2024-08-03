@@ -1,0 +1,1279 @@
+
+==================
+Kubernetes (K8S)
+==================
+
+=> It is free & open source s/w
+
+=> Google developed this k8s
+
+=> K8s developed using GO programming language
+
+=> K8S provides Orchestration (Management)
+
+=> K8S is used to manage containers 
+	(create/stop/start/delete/scale-up/scale-down)
+
+===============
+Advantages	
+===============
+
+1) Auto Scaling : Based on demand containers count will be increased or decreased.
+
+2) Load Balancing : Load will be distributed all containers which are up and running
+
+3) Self Healing : If any container got crashed then it will replaced with new container
+
+=====================
+Docker Vs Kubernetes
+=====================
+
+Docker : Containerization platform
+
+Note: Packaging our app code and dependencies as single unit for execution is called as Containerization.
+
+Kubernetes : Orchestration platform
+
+Note: Orchestation means managing the containers.
+
+========================
+Kubernetes Architecture
+========================
+
+=> K8S will follow cluster architecture
+
+=> Cluster means group of servers will be available
+
+=> In K8s Cluster we will have master node (control plane) and worker nodes
+
+
+========================
+K8S Cluster Components
+========================
+
+1) Control Node (Master Node)
+
+	 - API Server
+	 - Schedular
+	 - Controller Manager
+	 - ETCD
+
+2) Worker Node
+
+	- Kubelet
+	- Kube Proxy
+	- Docker Runtime
+	- POD
+	- Container
+
+=> To deploy our application using k8s we need to communicate with control node.
+
+=> We will use KUBECTL (CLI) to communicate with control plane.
+
+=> API Server will recieve the request given by kubectl and it will store that request in ETCD with pending status.
+
+=> ETCD is an internal database of k8s cluster.
+
+=> Schedular will identify pending requests available in ETCD and it will identify worker node to schedule the task.
+
+Note: Schedular will identify worker node using kubelet.
+
+=> Kubelet is called as Node Agent. It will maintain all the worker node information.
+
+=> Kube Proxy will provide network for the cluster communication.
+
+=> Controller Manager will verify all the taks are working as expected or not.
+
+=> In Worker Node, Docker Engine will be available to run docker container.
+
+=> In K8s, container will be created inside POD.
+
+=> POD is a smallest building block that we can create in k8s cluster.
+
+=> Inside POD, docker container will be created.
+
+Note: In K8s, everything will be represented as POD only.
+
+==================
+K8S Cluster Setup
+==================
+
+1) Mini Kube => Single Node cluster => Only for practice
+
+2) Kubeadm Cluster => Self Managed Cluster => We are responsible for everything
+
+3) Provider Managed Cluster => Ready Made Cluster => Provider will take care of everything
+
+		Ex : AWS EKS, Azure AKS, GCP GKE etc...
+
+Note: Provider Managed Clusters are chargable.
+
+
+### EKS Setup : https://github.com/ashokitschool/DevOps-Documents/blob/main/05-EKS-Setup.md
+
+
+
+
+
+=====================
+Kubernetes Resources
+=====================
+
+1) PODS
+2) Services (Cluster IP, Node Port, Load Balancer)
+3) Namespaces
+4) ReplicationController (RS)
+5) ReplicaSet
+6) Deployment
+7) DeamonSet
+8) StatefulSet
+9) IngressController
+10) HPA
+11) HelmCharts
+12) K8S Monitoring (Grafana & Promethues)
+13) EFK stack setup to monitor app logs
+
+
+=============
+What is POD?
+=============
+
+=> POD is a smallest building block in the k8s cluster.
+
+=> Application will be deployed as a pod in k8s.
+
+=> We can create multiple pods for one application.
+
+=> To create a POD we will use YML file (Manifest YML).
+
+=> In POD manifest YML we will configure our Docker image.
+
+=> If POD is damaged/crashed/deleted then k8s will create new pod 
+  (self-healing)
+
+=> If application running in multiple pods, then k8s will distribute the load to all running pods (Load Balancer).
+
+=> PODS can be increased or decreased automatically based on the load (Scalability).
+
+
+================
+K8S Services
+===============
+
+=> Service is used to expose PODS.
+
+=> We have 3 types of services in k8s
+
+	1) Cluster IP
+	2) Node Port
+	3) Load Balancer
+
+=====================
+What is Cluster IP ?
+=====================
+
+=> POD is a short lived object.
+
+=> When pod is crashed/damaged k8s will replace that with new pod
+
+=> When POD is re-created IP will be changed.
+
+Note: It is not recommended to access pods using POD IP.
+
+=> Cluster IP service is used to link all PODS to single ip.
+
+=> Cluster IP is a static ip to access pods 
+
+=> Using Cluster IP we can access pods only with in the cluster
+
+
+============================
+What is NodePort service ?	
+============================
+
+=> NodePort service is used to expose our pods outside the cluster.
+
+=> Using NodePort we can access our application with Worker Node Public IP address.
+
+=> When we use Node Public IP to access our pod then all requests will go same worker node 
+  (burden will be increased on the node).
+
+Note : To distribute load to multiple worker nodes we will use LBR service.
+
+=================================
+What is Load Balancer Service ?
+=================================
+
+=> It is used to expose our pods outside cluster using AWS Load Balancer
+
+=> When we access load balancer url, requests will be distributed to all pods running in all worker nodes.
+
+================
+K8S Namespaces
+================
+
+=> Namespaces are used to group the resources
+
+		frontend-app-pods ===> frontend-app-ns
+
+		backend-app-pods ===> backend-app-ns
+
+		database-pods ===> database-ns
+
+
+=============================
+
+=> In K8s we will use Manifest YML to deploy our application
+
+========================
+K8s Manifest YML Syntax
+========================
+
+---
+apiVersion: <version-number>
+kind:  <resource-type>
+metadata: <name>
+spec: <container>
+...
+
+# Execute k8s manifest yml like below
+$ kubectl apply -f <manifest-yml>
+
+======================
+K8S POD Manifest YML
+======================
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: javawebapppod
+ labels:
+  app: javawebapp
+spec:
+ containers:
+ - name: javawebappcontainer
+   image: ashokit/javawebapp
+   ports:
+   - containerPort: 8080
+...
+
+# check pods available
+$ kubectl get pods
+
+# Execute k8s manifest yml
+$ kubectl apply -f <manifest-yml>
+
+# Check pods running in which worker node
+$ kubectl get pods -o wide
+
+# describe pod
+$ kubectl describe pod <pod-name>
+
+# get pod logs
+$ kubectl logs <pod-name>
+
+===========================
+K8S Service Manifest YML
+===========================
+
+=> Service is used to expose pods
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+# check k8s services
+$ kubectl get service
+
+# create service
+$ kubectl apply -f <service-manifest-yml>
+
+Note: Once service got created we can see in EC2 dashabord Load balancer creation.
+
+=> We can access our application using Loadbalance DNS url
+
+		URL : LBR-DNS-URL/java-web-app/
+
+============================================
+K8S POD & Service Manifest in Single YML	
+============================================
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: javawebapppod
+ labels:
+  app: javawebapp
+spec:
+ containers:
+ - name: javawebappcontainer
+   image: ashokit/javawebapp
+   ports:
+   - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+# execute manifest yml
+$ kubectl apply -f <manifest-yml>
+
+# Get pods
+$ kubectl get pods
+
+# Get service 
+$ kubectl get service
+
+# to delete all the resources we have created
+$ kubectl delete all --all
+
+
+=======================
+K8S Node Port Service
+=======================
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+spec:
+ type: NodePort
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...    
+
+==========================
+What is Nodeport number ?
+==========================
+
+=> If we don't specify node-port in service manifest yml then k8s will assign random node port number for the service in the range of 30000 to 32767.
+
+Note: If We don't want random node port number, we can specify that port number in service manifest yml.
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+spec:
+ type: NodePort
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+    nodePort: 30070
+... 
+
+$ kubectl apply -f <yml>
+
+$ kubectl get pods
+
+$ kubectl get service
+
+$ kubectl get pods -o wide
+
+Note: We need to enable node-port number in the security group inbound rules of worker node in which our pod is running.
+
+  URL To Access Our app : http://node-public-ip:node-port/java-web-app
+
+=======================
+K8S ClusterIP Service
+=======================
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+spec:
+ type: ClusterIP
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+=> When we use service type as ClusterIP then one static ip will be created to access our pods with in the cluster.
+
+================
+K8S Namespaces
+===============
+
+=> Namespaces are used to group k8s resources
+	
+	frontend-app-pods ==> create under one namespace
+
+	backend-app-pods ==> create under one namespace
+
+	database-pods ==> create under once namespace
+
+=> We can create multiple namespaces in k8s cluster
+
+	Ex : ashokit-a1-ns, ashokit-a2-ns
+
+=> Each namespace is isolated with another namespace
+
+Note: When we delete a namespace, all the resources belongs to that namespace gets deleted.	
+
+# display all namespaces available
+$ kubectl get ns
+
+# get the pods available in kube-system namespace
+$ kubectl get pods -n kube-system
+
+Note: If we don't give namespace then k8s will check under default namespace.
+
+
+=> We can create namespace in 2 ways
+
+		1) using kubectl create ns command
+
+		2) using manifest yml
+
+Approach-1:  
+
+		$ kubectl create ns ashokit-ns		
+
+Approach-2:
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+ name: ashokit-ns-2
+...		
+
+$ kubectl apply -f <yml>
+
+# We can delete namespace using below command
+
+$ kubectl delete ns <namespace-name>
+
+
+---
+apiVersion: v1
+kind: Namespace
+metadata: 
+ name: ashokit-ns
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: javawebapppod
+ namespace: ashokit-ns
+ labels:
+  app: javawebapp
+spec:
+ containers:
+ - name: javawebappcontainer
+   image: ashokit/javawebapp
+   ports:
+   - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+ namespace: ashokit-ns
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+$ kubectl apply -f <yml>
+
+$ kubectl get ns
+
+$ kubectl get pods -n ashokit-ns
+
+$ kubectl get service -n ashokit-ns
+
+$ kubectl get all -n ashokit-ns
+
+$ kubectl delete ns ashokit-ns
+
+
+============================
+1) What is Orchestration
+2) K8S Introduction
+3) K8S Advantages
+4) K8S Architecture
+5) K8S Architecture components
+6) K8S Cluster Setup
+7) K8S Resources
+8) What is POD
+9) What is Service (ClusterIP, NodePort & LBR)
+10) What is Namespace
+======================================
+
+self healing
+load balancing
+auto scaling
+
+======================
+
+=> As of now, we have created POD directley using POD Manifest YML.
+    
+      (kind: Pod)
+
+=> If we create POD directley then we don't get self-healing capability.
+
+=> If POD is damaged/crashed/deleted then k8s will not create new POD.
+
+=> If pod damaged then our application will be down.
+
+Note: We shouldn't create POD directley to deploy our application in k8s.
+
+Note: We need to use k8s resources to create pods.
+
+=> If we create pod using k8s resources, then pod life cycle will be managed by k8s.
+
+=> We have below resources to create pods
+
+      1) ReplicationController (Outdated)
+      2) ReplicaSet
+      3) Deployment
+      4) DeamonSet
+      5) StatefulSet
+
+===========
+ReplicaSet
+===========
+
+=> It is one of the k8s resource which is used to create & manage pods.
+
+=> ReplicaSet will take care of POD life cycle.
+
+Note: When POD is damaged/crashed/deleted then ReplicaSet will create new POD.
+
+=> Always It will maintain given no.of pods count available for our application.
+
+        Ex=> replicas: 2
+
+=> With this approach we can achieve high availability for our application.
+
+=> By using RS, we can scale up and scale down our PODS count.
+
+
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+ name: javawebrs
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   app: javawebapp
+ template:
+  metadata:
+   name: javawebpod
+   labels:
+    app: javawebapp
+  spec:
+   containers:
+   - name: javawebcontainer
+     image: ashokit/javawebapp
+     ports:
+      - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebappsvc
+ namespace: ashokit-ns
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+$ kubectl get all
+
+$ kubectl apply -f <yml>
+
+$ kubectl get pods
+
+$ kubectl get rs
+
+$ kubectl delete pod <pod-name>
+
+$ kubectl get pods
+
+$ kubectl scale rs javawebrs --replicas 3
+
+Note: When we execute above command replicaset will check how many pods are currently running based on that it will decide scale up or scale down.
+
+Note: If we want to delete the pods then we have to delete the resource which created those pods.
+
+$ kubectl delete rs javawebrs
+
+Note: In ReplicaSet, scale up & scale down is manual process.
+
+=> K8S supports Auto Scaling when we use 'Deployment' to create pods.
+
+================
+K8S Deployment
+================
+
+=> It is one of the k8s resource/component
+
+=> It is most recommended approach to deploy our applications in k8s.
+
+=> Deployment will manage pod life cycle.
+
+=> We have below advantages with K8s Deployment 
+
+    1) Zero Downtime
+
+    2) Auto Scaling
+
+    3) Rolling Update & Rollback
+
+
+=> We have below deployment strategies
+
+        1) ReCreate (all at once)
+
+        2) RollingUpdate (one by one)
+
+
+=> ReCreate means it will delete all existing pods and will create new pods.
+
+=> RollingUpdate means it will delete and create new pod one by one.
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: javawebdeploy
+spec:
+ replicas: 2
+ strategy: 
+  type: RollingUpdate
+ selector:
+  matchLabels:
+   app: javawebapp
+ template:
+  metadata:
+   name: javawebpod
+   labels:
+    app: javawebapp
+  spec:
+   containers:
+   - name: javawebappcontainer
+     image: ashokit/javawebapp
+     ports:
+     - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: javawebsvc
+spec:
+ type: LoadBalancer
+ selector:
+  app: javawebapp
+ ports:
+  - port: 80
+    targetPort: 8080
+...
+
+$ kubectl delete all --all
+
+$ kubectl get all
+
+$ kubectl apply -f <yml>
+
+$ kubectl get all
+
+Note: Access app using LBR URL
+
+$ kubectl scale deployment javawebdeploy --replicas 4
+
+$ kubectl get pods
+
+$ kubectl scale deployment javawebdeploy --replicas 3
+
+
+==============
+Autoscaling
+==============
+
+-> It is the process of increasing / decreasing infrastructure resources based on demand.
+
+-> Autoscaling can be done in 2 ways
+
+    1) Horizontal Scaling
+
+    2) Verticle Scaling
+
+-> Horizontal Scaling means increasing number of instances/servers/pods.
+
+-> Veriticle Scaling means increasing capacity of single system.
+
+    HPA : Horizontal POD Autoscaling
+
+    VPA : Vertical POD Autoscaling (we don't use this)
+
+HPA: It is used to scale up/down no.of pod replicas based on the observed metrics 
+    (CPU or memory utilization)
+
+-> HPA will interact with "Metric Server" to identify CPU/Memory utilization of POD.
+
+-> Metrics server is an application that collect metrics from objects such as pods, nodes according to the state of CPU, RAM and keeps them in time.
+
+# to get node metrics
+$ kubectl top nodes
+
+# to get pod metrics
+$ kubectl top pods
+
+Note: By default metrics server is not available in our k8s cluster
+
+@@@@@@@@@ HPA Reference VIDEO : https://www.youtube.com/watch?si=-0fbmX91-irfAeAW&v=c-tsJrcB50I&feature=youtu.be
+
+==============================
+Step-1 : Install Metrics API
+==============================
+
+1) clone git repo
+ 
+$ git clone https://github.com/ashokitschool/k8s_metrics_server
+
+2) check the cloned repo
+
+$ cd k8s_metrics_server
+
+$ ls deploy/1.8+/
+
+3)  apply manifest files from manifest-server directlry
+
+$ kubectl apply -f deploy/1.8+/
+
+Note: it will create service account, role, role binding all the stuff
+
+# we can see metric server running in kube-system ns
+$ kubectl get all -n kube-system
+
+# check the top nodes using metric server
+$ kubectl top nodes
+
+# check the top pods using metric server
+$ kubectl top pods
+
+
+Note: When we install Metric Server, it is installed under the kube-system namespaces.
+
+===================================
+Step-2 : Deploy Sample Application
+===================================
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: hpa-demo-deployment
+spec:
+ selector:
+   matchLabels:
+     run: hpa-demo-deployment
+ replicas: 1
+ template:
+   metadata:
+     labels:
+       run: hpa-demo-deployment
+   spec:
+     containers:
+     - name: hpa-demo-deployment
+       image: k8s.gcr.io/hpa-example
+       ports:
+       - containerPort: 80
+       resources:
+         limits:
+           cpu: 500m
+         requests:
+           cpu: 200m
+...
+
+===================================
+Step-3 : Create Service
+===================================
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: hpa-demo-deployment
+ labels:
+   run: hpa-demo-deployment
+spec:
+ ports:
+ - port: 80
+ selector:
+   run: hpa-demo-deployment
+...
+
+===================================
+Step-4 : Create HPA
+===================================
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+ name: hpa-demo-deployment
+spec:
+ scaleTargetRef:
+  apiVersion: apps/v1
+  kind: Deployment
+  name: hpa-demo-deployment
+ minReplicas: 1
+ maxReplicas: 10
+ targetCPUUtilizationPercentage: 50
+...
+
+
+=============================
+Step-5 : Increase the Load
+=============================
+
+$ kubectl get hpa
+
+$ kubectl run -i --tty load-generator --rm --image=busybox --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://hpa-demo-deployment; done"
+
+Note: After executing load generator open new git bash and connect to eks vost vm and monitor hpa with below commands
+
+$ kubectl get hpa -w
+
+$ kubectl describe deploy hpa-demo-deployment
+
+$ kubectl get hpa
+
+$ kubectl get events
+
+$ kubectl top pods 
+
+$ kubectl get hpa
+
+=========================
+
+1) What is Orchestration
+2) Kubernetes introduction
+3) K8S Advantages
+4) K8S Architecture
+5) K8S Cluster Setup
+6) PODS
+7) Services
+8) Namespaces
+9) ReplicaSet
+10) Deployment
+11) Metrics Server
+12) HPA
+
+==============================
+Blue - Green Deployment Model
+==============================
+
+Step-0: Clone below git repo
+
+  URl : https://github.com/ashokitschool/kubernetes_manifest_yml_files.git
+
+Step-1 : Navigate into blue-green directory
+
+Step-2 : Create Blue Pods deployment (pod-label : v1)
+
+Step-3 : Create Live Service to expose blue pods
+
+Step-4 : Access App using Live Service LBR DNS Url
+
+   (blue pods response we should be able to see in browser)
+
+Step-5: Create Green Pods deployment
+
+Step-6: Check all pods running
+
+Step-7: Create Pre-Prod service
+
+Step-8: Access Green Pods using pre-prod service
+
+** Step-9: Make green pods live ***
+
+Step-10 : Access Live Service (green pods response should come)   
+
+========================
+
+1) HELM Charts
+
+2) Promethues
+
+3) Grafana
+
+4) EFK Stack
+
+========================
+
+
+===============
+What is HELM ?
+================
+
+=> HELM is a package manager which is used to install required softwares in k8s cluster
+
+=> HELM will use charts to install required packages
+
+=> Chart means collection of configuration files (manifest ymls)
+
+
+####### HELM Charts ###########
+
+=> Using HELM chart we can install promethues server
+
+=> Using HELM chart we can install grafana server
+
+##################
+Helm Installation
+##################
+
+$ curl -fsSl -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+
+$ chmod 700 get_helm.sh
+
+$ ./get_helm.sh
+
+$ helm
+
+-> check do we have metrics server on the cluster
+
+$ kubectl top pods
+
+$ kubectl top nodes
+
+
+1) execute manifest ymls -- we are done with this process
+
+2) use helm chart
+
+# check helm repos 
+$ helm repo ls
+
+# Add the metrics-server repo to helm
+$ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+
+# Install the chart
+$ helm upgrade --install metrics-server metrics-server/metrics-server
+
+#######################
+Kubernetes Monitoring
+#######################
+
+=> We can monitor our k8s cluster and cluster components using below softwares
+
+1) Prometheus
+
+2) Grafana
+
+
+=============
+Prometheus
+=============
+
+-> Prometheus is an open-source systems monitoring and alerting toolkit
+
+-> Prometheus collects and stores its metrics as time series data
+
+-> It provides out-of-the-box monitoring capabilities for the k8s container orchestration platform.
+
+=============
+Grafana
+=============
+
+-> Grafana is an  analysis and monitoring tool
+
+-> It provides visulization for monitoring
+
+-> It provides charts, graphs, and alerts for the web when connected to supported data sources.
+
+Note: Graphana will connect with Prometheus for data source.
+
+#########################################
+How to deploy Grafana & Prometheus in K8S
+##########################################
+
+-> Using HELM charts we can easily deploy Prometheus and Grafana
+
+##########################################################
+Install Prometheus & Grafana In K8S Cluster using HELM
+##########################################################
+
+# Add the latest helm repository in Kubernetes
+$ helm repo add stable https://charts.helm.sh/stable
+
+# Add prometheus repo to helm
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# Update Helm Repo
+$ helm repo update
+
+# install prometheus
+$ helm install stable prometheus-community/kube-prometheus-stack
+
+# Get all pods 
+$ kubectl get pods
+
+Node: You should see prometheus pods running
+
+# Check the services 
+$ kubectl get svc
+
+# By default prometheus and grafana services are available within the cluster as ClusterIP, to access them outside lets change it to LoadBalancer.
+
+
+# Edit Prometheus Service & change service type to LoadBalancer then save and close that file
+$ kubectl edit svc stable-kube-prometheus-sta-prometheus
+
+# Now edit the grafana service & change service type to LoadBalancer then save and close that file
+$ kubectl edit svc stable-grafana
+
+# Verify the service if changed to LoadBalancer
+$ kubectl get svc
+
+
+=> Access Promethues server using below URL
+
+    URL : http://LBR-DNS:9090/
+
+=> Access Grafana server using below URL
+
+    URL : http://LBR-DNS/
+
+=> Use below credentials to login into grafana server
+
+UserName: admin
+Password: prom-operator
+
+=> Once we login into Grafana then we can monitor our k8s cluster. Grafana will provide all the data in charts format.
+
+
+
+========================
+Config Map & Secrets
+========================
+
+=> For every application multiple environments will be available for testing purpose
+
+      a) DEV (development)
+      b) SIT (system integration testing)
+      c) UAT (user acceptance testing)
+      d) PILOT 
+
+=> DEV env used by development team for code integration testing
+
+=> SIT env used by testing team for functional testing      
+
+=> UAT env used by client side team for acceptance testing
+
+=> PILOT env used for pre-production testing
+
+=> Once appilcation testing is completed in all above environments then it will be deployed into PRODUCTION environment (Live Environment).
+
+Note: For every environment, some properties will be different
+
+      1) Database properties
+      2) SMTP properties
+      3) Kafka properties
+      4) Redis properties etc.....
+
+### We shouldn't hardcode properties in our source code ###
+
+### We need to make our application loosely coupled to deploy in any environment ###
+
+=> Config Map & Secret concepts are used to avoid hard coded properties in the application.
+
+=> Config Map & Secret allows us to de-couple application properties from Docker images so that our application can be deployed into any environment without making any changes for our Docker image.
+
+
+=> Config Map is used to store data in key-value (non-confidential)
+
+=> Secret is used to store confidential data in key - value format (ex: pwd)
+
+### Note: ConfigMap & Secrets will make docker images as portable. ###
+
+
+=============================================
+Application Properties (Hard Coded values)
+=============================================
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysqldb:3306/sbms
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+=============================================
+Application Properties (with Env Variables)
+=============================================
+spring:
+  datasource:
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    url: ${DB_URL:jdbc:mysql://mysqldb:3306/sbms}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+====================
+ConfigMap Manifest
+====================   
+
+ => Below is the configmap manifest yml
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ashokit-config-map
+  labels:
+   storage: ashokit-db-config-map
+data:
+  DB_DRIVER: com.mysql.cj.jdbc.Driver
+  DB_URL: jdbc:mysql://mysqldb:3306/sbms
+  DB_USERNAME: root
+...
+
+
+====================
+Secret Manifest
+====================   
+
+ => Below is the secret manifest yml
+
+Note : URL To encode : https://www.base64encode.org/
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ashokit-secret
+  labels:
+   storage: ashokit-db-secret
+data:
+  DB_PASSWORD: cm9vdA==
+type: Opaque  
+...
+
+=============================
+Reading Data From ConfigMap
+============================
+
+- name: DB_DRIVER
+  valueFrom:
+   configMapKeyRef:
+    name: ashokit-config-map
+    key: DB_DRIVER
+
+==========================
+Reading Data From Secret  
+==========================  
+
+- name: DB_PASSWORD
+  valueFrom:
+   secretKeyRef:
+     name: ashokit-secret
+     key: DB_PASSWORD
+
+===========================================
+Spring Boot with MYSQL DB Deployment 
+==========================================
+
+=> In this project we will use below k8s resources
+
+1) ConfigMap
+2) Secret
+3) PV 
+4) PVC
+5) StatefulSet
+6) Deployment     
+
+#### Git Hub Repo : https://github.com/ashokitschool/kubernetes_manifest_yml_files.git ###
+
+1) Create Config Map
+
+$ kubectl apply -f <yml>
+$ kubectl get cm
+
+
+2) Create Secret
+
+$ kubectl apply -f <yml>
+$ kubectl get secret
+
+3) Create PV
+
+$ kubectl apply -f <yml>
+$ kubectl get pv
+
+4) Create PVC
+
+$ kubectl apply -f <yml>
+$ kubectl get pvc
+
+5) Create DB Deployment
+
+$ kubectl apply -f <yml>
+$ kubectl get pods
+$ kubectl get svc
+
+####### Note : We can check mysql db is running in the pod or not ##########
+
+$ kubectl exec -it <db-pod-name> bash
+$ mysql -h localhost -u root -p
+$ show databases;
+
+### Exit from database : $exit ###
+
+6) Create App Deployment
+
+Note: Check app pod running in which worker node then enable node-port number in security group in-bound rules.
+
+
