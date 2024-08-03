@@ -1,0 +1,76 @@
+
+===================
+Agile Methodology
+===================
+
+=> Agile Methodology is one of the most famous SDLC methodology in the market.
+
+-> Planning + Design + Development + Testing + Delivery is a continuous process.
+
+=> In Agile methodology we will deliver project to client in multiple releases. They are called as Sprints.
+
+	Ex: sprint-1, sprint-2, sprint-3
+
+===================
+Agile Terminology
+===================
+
+1) Backlog grooming
+2) Story
+3) Story Points
+4) Sprint Planning
+5) Sprint
+6) Retrospective
+
+
+=> Backlog grooming is a meeting where all the team members will discuss about pending works/items in the project.
+
+=> For every pending item we will create one story in the JIRA. Story means a task that we need to complete.
+
+=> For every story we need to assign story points. Story points will represent duration to complete the story.
+
+			3 points -> 1 day
+
+			5 points -> 2 days
+
+			8 points -> 3 days
+
+Note: pending stories are called as backlog stories.
+
+=> Sprint Planning is a meeting in which team will disucuss priority stories to complete.
+
+=> Sprint represents set of stories to complete in given duration.
+
+Note: Sprint duration will be 2 weeks (industry standard)
+
+=> In sprint duration, everyday scrum meeting will be there to give work updates to scrum master.
+
+			1) Working on which task
+			2) When my task will be completed
+			3) Any challenges to complete the task
+
+=> Retrospective is a meeting in which team members will discuss about sprints review.
+
+			1) what went well
+			2) what went wrong
+			3) any lessons learnt
+			4) any improvements required
+			5) new ideas....
+
+======
+JIRA
+=======
+
+=> JIRA s/w developed by Atlasian company
+
+=> JIRA is called as Project Management software
+
+=> JIRA is used to manage project work.
+
+		1) Story creation
+		2) Story allocation
+		3) Reports generation etc...
+
+=> JIRA is also used for Bug Reporting....		
+
+=> JIRA is a licensed s/w. We can use trial version for our practice.

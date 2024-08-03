@@ -1,0 +1,212 @@
+
+=================
+SonaType Nexus
+=================
+
+-> Nexus is an Open Source Software (OSS) & It is free.
+
+-> It is used as Artifactory Repository server.
+
+-> It is used to store & retrieve project build artifacts.
+
+		ex : jar, war, docker images etc..
+
+Note: Project artifacts will be stored in artifactory repository server for backup purpose.	
+
+-> Nexus software developed using java language.
+
+-> The current version of nexus is 3.x
+
+Note : The alternate for nexus is JFrog.
+
+============================================================
+Q) What is difference between Nexus repo and GitHub repo ?
+============================================================
+
+-> Github is a SCM software which is used to store source code of the project.
+
+-> Nexus is an Artifact Repository which is used to store build artifacts (jar / war)
+
+=========================================================
+Q) When we should store project artifact into nexus ?
+=========================================================
+
+-> After build and before deployment
+
+=============
+Nexus Setup
+=============
+
+https://github.com/ashokitschool/DevOps-Documents/blob/main/07-Nexus-Setup-Docker.md
+
+
+================================
+Working with Nexus Repository
+================================
+
+=> In nexus server, we can create 2 types of repositories to store project artifacts.
+
+		1) snapshot repository
+
+		2) release repository
+
+-> If project is under development then that project build artifacts will be stored into snapshot repository.
+
+-> If project development completed and released to production then that project build artifacts will be stored to release repository.
+
+
+Note: Based on <version/> name available in project pom.xml file it will decide artifacts should be stored into which repository.
+
+	<version>0.0.1-SNAPSHOT</version> => It will go to snapshot repository
+
+	<version>RELEASE-1.0</version> => It will go release repository
+
+
+-> Create Repositories by selecting "Maven 2 (Hosted)"
+
+		- select policy
+
+-> After repositories created note down repo urls like below
+
+	Snapshot repo url : http://3.6.41.58:8081/repository/ashokit_snapshot_repo/
+
+	Release repo url : http://3.6.41.58:8081/repository/ashokit_release_repo/
+
+
+==================================================
+Integrate Maven App with Nexus (Manual process)
+==================================================
+
+## Step-0 :  Clone git repository : https://github.com/ashokitschool/SB-REST-H2-DB-APP
+
+## Step-1:  Nexus Repos details we will configure in project pom.xml  file like below
+
+  <distributionManagement> 
+		<repository>
+			<id>nexus</id>
+			<name>Ashok IT Releases Nexus Repo</name>
+			<url>http://3.6.41.58:8081/repository/ashokit_release_repo/</url>
+		</repository>
+		
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>Ashok IT Snapshots Nexus Repo</name>
+			<url>http://3.6.41.58:8081/repository/ashokit_snapshot_repo/</url>
+		</snapshotRepository>	
+  </distributionManagement>
+
+## Step-2:  Nexus Server Credentials will be configured in Maven "settings.xml" file
+
+	#### Maven setup in windows : https://www.youtube.com/watch?v=hV1OWzYpzxo
+
+		Maven Location : C:\apache-maven-3.8.5\conf
+
+-> In settings.xml file, under <servers> tag add below <server> tag
+
+	<server>
+		<id>nexus</id>
+		<username>admin</username>
+		<password>admin@123</password>
+	</server>
+
+
+## Step-3:  Once these details are configured then we can run below maven goal to upload build artifacts to Nexus Server
+
+	$ mvn clean deploy
+
+Note: When we execute maven deploy goal, internally it will execute 'compile + test + package + install + deploy' goals.
+
+##################
+Remote Repository 
+##################
+
+-> Remote repository used for maintaining shared libraries 
+   (common jars required for multiple projects in the company)
+
+-> If we want to use few jars files in multiple projects in the company then we will use Remote Repository to store those jars (libraries).
+
+-> Remote repository is specific to our company projects.
+
+-> Create remote repo in nexus and upload a jar file 
+
+	-> Go to Repositories
+	-> Create New Repository
+	-> Choose Maven (Hosted) Repository
+	-> Give a name for Repository (Ex: ashokit-remote-repository) & Complete the process
+
+
+Note: With above steps Remote Repository got created.
+
+
+Remote Repo URL : http://65.2.38.55:8081/repository/ashokit_remote_repo/	
+
+
+-> Go to BrowseSection
+-> Select Remote Repository (By default it is empty)
+-> Click on Upload Component
+-> Upload Jar file and give groupId, artifactId and Version		
+
+	Note: Give extension as jar
+
+	groupId : in.ashokit
+	artifactId : pwd-utils
+	version : RELEASE-1.0	
+
+	-> Select generat pom file and give package type as pom
+
+=> Take dependency details of uploaded shared library (jar file) and add it as a dependency in project pom.xml file	like below
+
+<dependency>
+  <groupId>in.ashokit</groupId>
+  <artifactId>pwd-utils</artifactId>
+  <version>RELEASE-1.0</version>
+</dependency>
+
+-> We need to add Remote Repository Details in pom.xml above <dependencies/> tag
+
+		<repositories>
+			<repository>
+				<id>nexus</id>
+				<url>http://15.206.128.43:8081/repository/ashokit-remote-repo/</url>
+			</repository>
+		</repositories>
+
+-> After adding the remote repository details in pom.xml then execute maven package goal and see dependency is downloading from nexus repo or not.
+
+		$ mvn clean package
+
+
+=========================================
+How to resolve HTTP Mirror Block Issue ?
+=========================================
+
+=> Make below change in Maven/conf/settings.xml
+
+<mirror>
+      <id>maven-default-http-blocker</id>
+      <mirrorOf>dummy</mirrorOf>
+      <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+      <url>http://0.0.0.0/</url>
+      <blocked>false</blocked>
+</mirror>
+
+
+===============
+Nexus Summary
+===============
+
+1) What is Nexus and Why we need to go for Nexus ?
+
+2) How to setup Nexus Server in Linux 
+
+3) How to create Repositories in Nexus (snapshot & release)
+
+4) How to upload build artifacts into Nexus Repositories
+
+5) What are Shared Libraries ?
+
+6) How to create Remote Repository ?
+
+7) How to upload Shared Libraries into remote repository
+
+8) How to configure remote repository in pom.xml file

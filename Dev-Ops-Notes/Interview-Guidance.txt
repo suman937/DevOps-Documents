@@ -1,0 +1,278 @@
+
+====================
+Interview Guidance
+====================
+
+1) Self Introduction
+
+2) Roles & Responsibilities
+
+3) Explain about your project
+
+4) Challenges you have faced as DevOps engineer
+
+5) Day to day activities as a devops engineer
+
+6) Build Your Resume
+
+7) Do's & Don't as software engineer
+
+8) Joining Formalities
+
+9) Exit Formalities
+
+===========================================
+Q-1) Self Introduction Of DevOps Engineer
+===========================================
+
+Part-1 : Your details (name, exp, role, company-name)
+
+Part-2 : Technical skills
+
+Part-3 : Your project(s)
+
+Part-4 : Roles & responsibilities
+
+
+=> Hi, I am <name> having <years_of_exp> as DevOps engineer with AWS cloud platform.
+=> Currently i am working as Sr. Software engineer in <company_name>.
+
+=> Coming to my technical skills, i am having hands on exp with several DevOps Tools like Terraform + Ansible + Git + Maven + SonarQube + Nexus + Jenkins + Docker + K8S + EFK + Promethues + Grafana etc..
+
+=> I am having hands on Exp with AWS cloud services like EC2 + S3 + RDS + IAM + VPC + Cloud Watch + SNS + Lambdas etc..
+
+=> I am having work experience with Linux commands.
+
+=> Coming to my project i am working on health insurance applications. These applications are used to provide health and insurance plans for the citizens.
+
+		frontend : Angular
+		backend : Java Springboot microservices
+		database : oracle
+
+
+=> Coming to my Roles & Responsibilities
+
+	- Creating infrastructure using Terraform
+	- Configuration mgmt using Ansible
+	- Source Code Repo creation using Github
+	- User management in github
+	- Environments setup (DEV, SIT, UAT, PILOT and PROD)
+	- Creating dockerfile and dockerizing applications
+	- Creating k8s manifest files
+	- Application Orchestration
+	- Jenkins Server management
+	- CI CD pipelines creation
+	- Code Quality Checking
+	- Monitoring and managing application
+
+
+===================
+Projects to mention
+===================
+
+Project-1 : Health Insurance System (HIS) ---> IN UAT
+
+Project-2 : E-Commerce 
+				
+			a) https://www.nykaa.com/
+			b) https://www.milton.in/
+			c) https://www.decathlon.in/
+			d) https://www.godrejinterio.com/
+
+========================================================
+What are the day to day activities of DevOps Engineer ?
+========================================================
+
+=> First Thing we need to check is our email inbox
+
+=> If required we need to provide replies to those mails.
+
+=> Check Meetings scheduled for today (get ready for those meetings)
+
+=> Check JIRA dashboard (see stories assigned to your name)
+
+=> Work on those stories which are in your bucket. 
+
+Note-1 : If stories are not assigned then check pending stories in JIRA and work on them.
+
+Note-2 : Note: If there is no task for you then immediatley update to your higher management 
+         (scrum master/tech lead/manager).
+
+Note-3 : If there is no work in project them management may ask to work on R & D and POC.
+
+
+=> Join daily scrum call and give work updates to scrum master.
+
+			- Working on which story
+			- When it will be completed
+			- Any challenges to complete
+			- Any help is required
+			- Any blockers
+
+
+=================================================================
+What types of tasks will be assigned to devops team member ?
+=================================================================
+
+- Infrastructure provisioning using terraform
+- Build New Env (Dev/ SIT/ UAT/ PILOT / PROD) (servers setup)
+- Creating Git Repos
+- Access Permissions (Read & Write)
+- Playbooks creation for ansible
+- CI CD Pipeline creation/modification
+- Pipeline execution
+- Monitoring
+- R & D
+- POC
+- Prepare documentation
+- Provide KT sessions
+- In house trainings
+
+
+==================================
+Documents Required for experience
+==================================
+
+1) Offer Letter
+2) Hike Letters
+3) Payslips (3 months or 6 months)
+4) Bank Statements (3 months or 6 months)
+5) Form 16
+6) Experience Letter / Service Letter
+7) Reliving Letter
+
+
+==================================
+Don'ts in Software Company
+==================================
+
+1) Don't discuss your salary details with your team members 
+	& don't ask about your team members salary also.
+
+2) Don't send any company / project / client related docs to your personal mails.
+
+3) Don't share your fake exp details with team members.
+
+4) Don't use social media websites in company provided systems.
+
+5) Don't abscond from company.
+
+6) Don't join for dual job (moon light)
+
+==========================
+Do's in software company
+==========================
+
+1) Maintain friendly relationship with your team members.
+
+2) Every month setup one to one meeting with manager to discuss about your performance.
+
+			- showcase your work
+			- Take feedback from manager
+			- understand manager expections on you
+			- discuss about your roles & responsibilities
+			- Any improvements required
+
+3) Prepare documentation for your work.
+
+4) Provide KT sessions for new team members.
+
+5) Research on New technologies related to your domain/field
+
+6) Conduct internal trainings on new technologies for your team with your manager approval.
+
+7) Download your payslips + hike letters + form 16 + exp letter
+
+
+====================
+Joining Formalities
+====================
+
+1) Company Onboarding Process
+
+	- Meet On Boarding HR on joining date
+
+	- Fill up Employment document form & submit to HR dept
+
+	- Submit previous employer documents
+
+	- Collect ID card (Badging section)
+
+	- Collect Laptop (IT dept)
+
+	- Collect salary account & Update it in HR portal
+
+	- Attend Induction Program (HR will explain company policies)
+
+2) Meeting with RM (Resource Manager)
+
+	- RM will identify openings in the projects based on your skills
+
+	- RM will schedule project interview / client interview
+	   (to check your skills matching with project tech stack)
+
+	- Attend project interview	
+
+	- If you get selected, then project allocation
+
+	- If you get rejected, then RM will find another project opening
+
+3) Project Onboarding	
+
+	- Meeting with Manager & Lead
+
+	- Meeting with team
+
+	- Manager / Lead will plan KT for you
+
+	- Attend KT sessions
+
+	- Join daily meetings
+
+			- scrum
+			- baclog gromming
+			- sprint planning
+			- retrospective
+
+	- Take Tasks and work on them			
+
+
+===================
+Exit Formalities
+===================
+
+=> After getting offer letter from other company, setup one to one meeting with Manager and tell to manager that u got offer from other company.
+
+=> Submit resignition (putting papers) in HR portal.
+
+=> HR team will send email regarding notice period and last working date.
+
+=> During Notice period, give KT to team members.
+
+=> Download all documents "offer letter + payslips + hike letters +  form 16 + employment letter + reliving letter" and send to your personal email.
+
+=> On last working date submit => ID card, laptop and company belongings.
+
+=> On last working date, give lunch party to your team members.
+
+Note: After exit, with in one month our Full & Final Settlment will be completed.
+
+
+
+==============================
+How to show gap as experience 
+==============================
+
+Gradudated in 2024 => Fresher => Prepare fresher resume
+
+Gradudated in 2023 => 1 year gap => Prepare resume with 1 year exp
+
+Gradudated in 2022 => 2 years gap => Prepare resume with 2 years exp
+
+Gradudated in 2021 => 3 years gap => Prepare resume with 3 years exp
+
+Gradudated in 2020 => 4 years gap => Prepare resume with 4 years exp
+
+Gradudated in 2019 => 5 years gap => 1 year training +  show 4 years IT exp
+
+Gradudated in 2018 => 6 years gap => 2 years non-it exp + show 4 years IT exp
